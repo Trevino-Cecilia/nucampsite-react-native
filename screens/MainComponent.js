@@ -5,8 +5,32 @@ import DirectoryScreen from "./DirectoryScreen";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import HomeScreen from "./HomeScreen";
+import AboutScreen from "./AboutScreen";
+import ContactScreen from "./ContactScreen";
 
+const AboutStack = createStackNavigator();
+const ContactStack = createStackNavigator();
 const Drawer = createDrawerNavigator();
+
+const AboutNavigator = () => {
+  return (
+    <AboutStack.Navigator screenOptions={screenOptions}>
+      <AboutStack.Screen name="About" component={AboutScreen} />
+    </AboutStack.Navigator>
+  );
+};
+
+const ContactNavigator = () => {
+  return (
+    <ContactStack.Navigator screenOptions={screenOptions}>
+      <ContactStack.Screen
+        name="Contact"
+        component={ContactScreen}
+        options={{ title: "Contact Us" }}
+      />
+    </ContactStack.Navigator>
+  );
+};
 
 const screenOptions = {
   headerTintColor: "#fff",
@@ -67,6 +91,16 @@ const Main = () => {
           name="DirectoryNav"
           component={DirectoryNavigator}
           options={{ title: "Directory" }}
+        />
+        <Drawer.Screen
+          name="AboutNav"
+          component={AboutNavigator}
+          options={{ title: "About" }}
+        />
+        <Drawer.Screen
+          name="ContactNav"
+          component={ContactNavigator}
+          options={{ title: "Contact Us" }}
         />
       </Drawer.Navigator>
     </View>
