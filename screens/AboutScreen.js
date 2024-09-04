@@ -1,7 +1,7 @@
-import React from "react";
 import { ScrollView, Text } from "react-native";
-import { Card, ListItem, Avatar } from "react-native-elements";
-import { PARTNERS } from "../shared/partners";
+import { Avatar, Card, ListItem } from "react-native-elements";
+import { useSelector } from "react-redux";
+import { baseUrl } from "../shared/baseUrl";
 
 function Mission() {
   return (
@@ -21,8 +21,8 @@ function Mission() {
   );
 }
 
-function AboutScreen() {
-  const partners = PARTNERS;
+const AboutScreen = () => {
+  const partners = useSelector((state) => state.partners);
 
   return (
     <ScrollView>
@@ -30,20 +30,18 @@ function AboutScreen() {
       <Card>
         <Card.Title>Community Partners</Card.Title>
         <Card.Divider />
-        {partners.map((partner) => {
-          return (
-            <ListItem key={partner.id}>
-              <Avatar rounded source={partner.image} />
-              <ListItem.Content>
-                <ListItem.Title>{partner.name}</ListItem.Title>
-                <ListItem.Subtitle>{partner.description}</ListItem.Subtitle>
-              </ListItem.Content>
-            </ListItem>
-          );
-        })}
+        {partners.partnersArray.map((partner) => (
+          <ListItem key={partner.id}>
+            <Avatar rounded source={{ uri: baseUrl + partner.image }} />
+            <ListItem.Content>
+              <ListItem.Title>{partner.name}</ListItem.Title>
+              <ListItem.Subtitle>{partner.description}</ListItem.Subtitle>
+            </ListItem.Content>
+          </ListItem>
+        ))}
       </Card>
     </ScrollView>
   );
-}
+};
 
 export default AboutScreen;
