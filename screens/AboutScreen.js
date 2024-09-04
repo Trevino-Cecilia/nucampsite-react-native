@@ -2,7 +2,6 @@ import { ScrollView, Text } from "react-native";
 import { Avatar, Card, ListItem } from "react-native-elements";
 import { useSelector } from "react-redux";
 import { baseUrl } from "../shared/baseUrl";
-import { useState } from "react";
 
 function Mission() {
   return (
@@ -23,7 +22,7 @@ function Mission() {
 }
 
 const AboutScreen = () => {
-  const [partners, setPartners] = useState(partners);
+  const partners = useSelector((state) => state.partners);
 
   return (
     <ScrollView>
