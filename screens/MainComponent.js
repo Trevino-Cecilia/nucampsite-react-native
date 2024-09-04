@@ -160,6 +160,7 @@ const Main = () => {
         initialRouteName="Home"
         drawerContent={CustomDrawerContent}
         drawerStyle={{ backgroundColor: "#CEC8FF" }}
+        screenOptions={{ headerShown: false }}
       >
         <Drawer.Screen
           name="Home"
