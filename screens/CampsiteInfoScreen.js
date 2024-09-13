@@ -25,7 +25,7 @@ const CampsiteInfoScreen = ({ route }) => {
       campsiteId: campsite.id,
     };
     dispatch(postComment(newComment));
-    setShowModal(!showModal);
+    setShowModal(false); // Close the modal
   };
 
   const resetForm = () => {
@@ -54,7 +54,7 @@ const CampsiteInfoScreen = ({ route }) => {
   return (
     <Animatable.View animation="fadeInUp" duration={2000} delay={1000}>
       <FlatList
-        data={comments.commentsArray.filter(
+        data={(comments.commentsArray || []).filter(
           (comment) => comment.campsiteId === campsite.id
         )}
         renderItem={renderCommentItem}
@@ -69,7 +69,7 @@ const CampsiteInfoScreen = ({ route }) => {
               campsite={campsite}
               isFavorite={favorites.includes(campsite.id)}
               markFavorite={() => dispatch(toggleFavorite(campsite.id))}
-              onShowModal={() => setShowModal(!showModal)}
+              onShowModal={() => setShowModal(true)}
             />
             <Text style={styles.commentsTitle}>Comments</Text>
           </>
@@ -79,14 +79,14 @@ const CampsiteInfoScreen = ({ route }) => {
         animationType="slide"
         transparent={false}
         visible={showModal}
-        onRequestClose={() => setShowModal(!showModal)}
+        onRequestClose={() => setShowModal(false)}
       >
         <View style={styles.modal}>
           <Rating
             showRating
             startingValue={rating}
             imageSize={40}
-            onFinishRating={(rating) => setRating(rating)}
+            onFinishRating={(newRating) => setRating(newRating)}
             style={{ paddingVertical: 10 }}
           />
           <Input
@@ -116,7 +116,7 @@ const CampsiteInfoScreen = ({ route }) => {
           <View style={{ margin: 10 }}>
             <Button
               onPress={() => {
-                setShowModal(!showModal);
+                setShowModal(false); // Close the modal
                 resetForm();
               }}
               color="#808080"
