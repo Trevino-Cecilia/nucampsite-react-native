@@ -22,6 +22,7 @@ import { fetchPartners } from "../features/partners/partnersSlice";
 import { fetchCampsites } from "../features/campsites/campsitesSlice";
 import { fetchPromotions } from "../features/promotions/promotionsSlice";
 import { fetchComments } from "../features/comments/commentsSlice";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/core";
 
 const Drawer = createDrawerNavigator();
 
@@ -97,6 +98,7 @@ const ContactNavigator = () => {
     </Stack.Navigator>
   );
 };
+
 const ReservationNavigator = () => {
   const Stack = createStackNavigator();
   return (
@@ -109,6 +111,56 @@ const ReservationNavigator = () => {
           headerLeft: () => (
             <Icon
               name="tree"
+              type="font-awesome"
+              iconStyle={styles.stackIcon}
+              onPress={() => navigation.toggleDrawer()}
+            />
+          ),
+        })}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const FavoritesNavigator = () => {
+  const Stack = createStackNavigator();
+  return (
+    <Stack.Navigator screenOptions={screenOptions}>
+      <Stack.Screen
+        name="Favorites"
+        component={FavoritesScreen}
+        options={({ navigation }) => ({
+          title: "Favorite Campsites",
+          headerLeft: () => (
+            <Icon
+              name="heart"
+              type="font-awesome"
+              iconStyle={styles.stackIcon}
+              onPress={() => navigation.toggleDrawer()}
+            />
+          ),
+        })}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const LoginNavigator = () => {
+  const Stack = createStackNavigator();
+  return (
+    <Stack.Navigator screenOptions={screenOptions}>
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={({ navigation, route }) => ({
+          headerTitle: getFocusedRouteNameFromRoute(route),
+          headerLeft: () => (
+            <Icon
+              name={
+                getFocusedRouteNameFromRoute(route) === "Register"
+                  ? "user-plus"
+                  : "sign-in"
+              }
               type="font-awesome"
               iconStyle={styles.stackIcon}
               onPress={() => navigation.toggleDrawer()}
@@ -150,50 +202,6 @@ const DirectoryNavigator = () => {
   );
 };
 
-const FavoritesNavigator = () => {
-  const Stack = createStackNavigator();
-  return (
-    <Stack.Navigator screenOptions={screenOptions}>
-      <Stack.Screen
-        name="Favorites"
-        component={FavoritesScreen}
-        options={({ navigation }) => ({
-          title: "Favorite Campsites",
-          headerLeft: () => (
-            <Icon
-              name="heart"
-              type="font-awesome"
-              iconStyle={styles.stackIcon}
-              onPress={() => navigation.toggleDrawer()}
-            />
-          ),
-        })}
-      />
-    </Stack.Navigator>
-  );
-};
-const LoginNavigator = () => {
-  const Stack = createStackNavigator();
-  return (
-    <Stack.Navigator screenOptions={screenOptions}>
-      <Stack.Screen
-        name="Login"
-        component={LoginScreen}
-        options={({ navigation }) => ({
-          headerLeft: () => (
-            <Icon
-              name="sign-in"
-              type="font-awesome"
-              iconStyle={styles.stackIcon}
-              onPress={() => navigation.toggleDrawer()}
-            />
-          ),
-        })}
-      />
-    </Stack.Navigator>
-  );
-};
-
 const CustomDrawerContent = (props) => (
   <DrawerContentScrollView {...props}>
     <View style={styles.drawerHeader}>
@@ -226,10 +234,12 @@ const Main = () => {
       }}
     >
       <Drawer.Navigator
-        initialRouteName="Home"
+        initialRouteName="HomeDrawer"
         drawerContent={CustomDrawerContent}
-        drawerStyle={{ backgroundColor: "#CEC8FF" }}
-        screenOptions={{ headerShown: false }}
+        screenOptions={{
+          headerShown: false,
+          drawerStyle: { backgroundColor: "#CEC8FF" },
+        }}
       >
         <Drawer.Screen
           name="Login"
@@ -294,7 +304,22 @@ const Main = () => {
             ),
           }}
         />
-
+        <Drawer.Screen
+          name="Favorites"
+          component={FavoritesNavigator}
+          options={{
+            title: "My Favorites",
+            drawerIcon: ({ color }) => (
+              <Icon
+                name="heart"
+                type="font-awesome"
+                size={24}
+                iconStyle={{ width: 24 }}
+                color={color}
+              />
+            ),
+          }}
+        />
         <Drawer.Screen
           name="About"
           component={AboutNavigator}
@@ -319,22 +344,6 @@ const Main = () => {
             drawerIcon: ({ color }) => (
               <Icon
                 name="address-card"
-                type="font-awesome"
-                size={24}
-                iconStyle={{ width: 24 }}
-                color={color}
-              />
-            ),
-          }}
-        />
-        <Drawer.Screen
-          name="Favorites"
-          component={FavoritesNavigator}
-          options={{
-            title: "My Favorites",
-            drawerIcon: ({ color }) => (
-              <Icon
-                name="heart"
                 type="font-awesome"
                 size={24}
                 iconStyle={{ width: 24 }}
