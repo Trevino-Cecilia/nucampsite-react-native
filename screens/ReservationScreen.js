@@ -29,16 +29,21 @@ const ReservationScreen = () => {
   };
 
   const handleReservation = () => {
-    console.log("campers:", campers);
-    console.log("hikeIn:", hikeIn);
-    console.log("date:", date);
+    const message = `Number of Campers: ${campers}
+                        \nHike-In? ${hikeIn}
+                        \nDate: ${date.toLocaleDateString("en-US")}`;
     Alert.alert(
       "Begin Search?",
-      `Number of Campers: ${campers}\n\nHike-In? ${
-        hikeIn ? "Yes" : "No"
-      }\n\nDate: ${date.toLocaleDateString("en-US")}`,
+      message,
       [
-        { text: "Cancel", onPress: () => resetForm() },
+        {
+          text: "Cancel",
+          onPress: () => {
+            console.log("Reservation Search Canceled");
+            resetForm();
+          },
+          style: "cancel",
+        },
         {
           text: "OK",
           onPress: () => {
@@ -47,9 +52,11 @@ const ReservationScreen = () => {
           },
         },
       ],
-
       { cancelable: false }
     );
+    console.log("campers:", campers);
+    console.log("hikeIn:", hikeIn);
+    console.log("date:", date);
   };
 
   const resetForm = () => {
