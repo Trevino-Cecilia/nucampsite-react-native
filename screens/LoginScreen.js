@@ -248,6 +248,7 @@ const LoginScreen = () => {
         name="Login"
         component={LoginTab}
         options={{
+          headerShown: false,
           tabBarIcon: (props) => {
             return (
               <Icon name="sign-in" type="font-awesome" color={props.color} />
@@ -259,6 +260,7 @@ const LoginScreen = () => {
         name="Register"
         component={RegisterTab}
         options={{
+          headerShown: false,
           tabBarIcon: (props) => {
             return (
               <Icon name="user-plus" type="font-awesome" color={props.color} />
