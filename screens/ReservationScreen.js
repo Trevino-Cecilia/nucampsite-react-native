@@ -32,10 +32,10 @@ const ReservationScreen = () => {
     console.log("hikeIn:", hikeIn);
     console.log("date:", date);
     Alert.alert(
-      "Your Reservation OK?",
-      `Number of Campers: ${campers}\nHike-In? ${
+      "Begin Search?",
+      `Number of Campers: ${campers}\n\nHike-In? ${
         hikeIn ? "Yes" : "No"
-      }\nDate: ${date.toLocaleDateString("en-US")}`,
+      }\n\nDate: ${date.toLocaleDateString("en-US")}`,
       [
         { text: "Cancel", onPress: () => resetForm() },
         { text: "OK", onPress: () => resetForm() },
