@@ -4,6 +4,7 @@ import { CheckBox, Input, Button, Icon } from "react-native-elements";
 import * as SecureStore from "expo-secure-store";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import * as ImagePicker from "expo-image-picker";
+import * as ImageManipulator from "expo-image-manipulator";
 import { baseUrl } from "../shared/baseUrl";
 import logo from "../assets/images/logo.png";
 
@@ -136,6 +137,20 @@ const RegisterTab = () => {
       );
     }
   };
+  const processImage = async (imgUri) => {
+    const processedImage = await ImageManipulator.manipulateAsync(
+      imgUri,
+      [
+        { resize: { width: 400, height: 400 } },
+        { rotate: 90 },
+        { flip: ImageManipulator.FlipType.Vertical },
+        { crop: { originX: 0, originY: 0, width: 200, height: 200 } },
+      ],
+      { compress: 1, format: ImageManipulator.SaveFormat.PNG }
+    );
+    console.log(processedImage);
+    setImageUrl(processedImage.uri);
+  };
 
   const getImageFromCamera = async () => {
     const cameraPermission = await ImagePicker.requestCameraPermissionsAsync();
@@ -152,6 +167,30 @@ const RegisterTab = () => {
     }
   };
 
+  const getImageFromGallery = async () => {
+    const mediaLibraryPermission =
+      await ImagePicker.getMediaLibraryPermissionsAsync();
+
+    if (mediaLibraryPermission.status !== "granted") {
+      const newPermission =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (newPermission.status !== "granted") {
+        alert("Media library permission is required");
+        return;
+      }
+    }
+
+    const capturedImage = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [1, 1],
+    });
+
+    if (capturedImage.assets) {
+      console.log(capturedImage.assets[0]);
+      setImageUrl(capturedImage.assets[0].uri);
+    }
+  };
+
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -162,6 +201,7 @@ const RegisterTab = () => {
             style={styles.image}
           />
           <Button title="Camera" onPress={getImageFromCamera} />
+          <Button title="Gallery" onPress={getImageFromGallery} />
         </View>
         <Input
           placeholder="Username"
